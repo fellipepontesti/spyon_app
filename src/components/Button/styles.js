@@ -5,7 +5,7 @@ align-items: center;
 text-align: center;
 width: 160px;
 font-weight: bold;
-font-size: 20px;
+font-size: 15px;
 color: #ffffff;
 padding: 0 25px;
 `
