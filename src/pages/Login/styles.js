@@ -50,11 +50,3 @@ export const Div = styled.View`
 export const Space = styled.View`
   margin-top: 100px;
 `
-
-export const TextoBotao = styled.TextInput`
-  background-color: #ffffff;
-  padding: 20px;
-  margin: 10px;
-  border-radius: 50px;
-  width: 75%;
-`
