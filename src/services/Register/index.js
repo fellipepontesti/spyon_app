@@ -1,14 +1,14 @@
 import api from "../api";
 
-async function RegisterService( name, email, senha, confirmacao ){
+async function RegisterService( email, senha, confirmacao ){
   try{
     return await api.post('register', {
-        name,
         email,
         password: senha,
         passwordConfirmation: confirmacao
     })
   } catch (error) {
+    console.log(error)
     return error
   }
 

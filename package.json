@@ -10,6 +10,10 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.5.2",
+    "@native-base/icons": "^0.0.11",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
     "axios": "^0.26.0",
@@ -18,12 +22,16 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-icons": "^4.3.1",
-    "react-native": "^0.67.3",
+    "react-native": "^0.64.3",
+    "react-native-app-intro-slider": "^4.0.4",
+    "react-native-paper": "^4.11.2",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
+    "react-native-svg": "12.1.1",
     "react-native-vector-icons": "^9.1.0",
     "react-native-web": "0.17.1",
     "react-navigation": "^4.4.4",
+    "socket.io-client": "^4.5.0",
     "styled-components": "^5.3.3",
     "yet": "^0.1.0"
   },

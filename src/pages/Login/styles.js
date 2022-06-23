@@ -39,22 +39,3 @@ export const DivError = styled.View`
   width: 100%;
   font-size: 12px;
 `
-
-export const Div = styled.View`
-  flex-direction: row;
-  justify-content: space-around;
-  width: 80%;
-  display: flex;
-`
-
-export const Space = styled.View`
-  margin-top: 100px;
-`
-
-export const TextoBotao = styled.TextInput`
-  background-color: #ffffff;
-  padding: 20px;
-  margin: 10px;
-  border-radius: 50px;
-  width: 75%;
-`
