@@ -28,3 +28,11 @@ export const TextPoints = styled.Text`
   font-size: 20px;
   background-color: transparent;
 `
+
+export const Space = styled.View`
+  margin-top: 20%;
+`
+
+export const Space2 = styled.View`
+  margin-top: 10%;
+`

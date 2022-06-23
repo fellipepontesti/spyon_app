@@ -1,54 +1,122 @@
-import React, {useState}  from 'react'
-import { BotaoGlobal, TextoBotao } from '../../components/Button/styles'
-import { Space } from '../Login/styles'
+import React, {useState, useContext}  from 'react'
+import { BotaoGlobal, BotaoSemFundo, TextoBotao } from '../../components/Buttons/styles'
 import RegisterService from '../../services/Register'
-import { ContainerGlobal, Input } from '../../components/Global/styles'
+import { Space2 } from '../../components/Spaces/styles'
+import { ActivityIndicator, Avatar, Snackbar } from 'react-native-paper';
+import { ContainerGlobal } from '../../components/Container/styles'
+import { DivBotoes } from '../../components/Divs/styles'
+import { Input } from '../../components/Inputs/style'
+import { TextWhite } from '../../components/Texts/styles'
+import { Modal } from 'react-native'
+import { validateEmail } from '../../helpers';
+import { AuthContext } from '../../context/auth';
 
 export default function Register({navigation}){
-
-  const [name, setName] = useState('')
+  const auth = useContext(AuthContext)
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [confirmacao, setConfirmacao] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState('')
+  const desativarError = () => setModalVisible(false)
+  const [modalVisible, setModalVisible] = useState(false)
 
-  async function btnRegister(name, email, senha, confirmacao){
+  async function btnRegister(email, senha, confirmacao){
+    const valid = validateEmail(email)
     let result = null
-    if (senha !== confirmacao){
-        setError('*As senhas não conferem')
-        return
+    if (!valid) {
+      setError('Email inválido!')
+      setModalVisible(true)
+      return
+    }
+    if (senha.length < 6){
+      setError('Senha de no mínimo 6 caracteres!')
+      setModalVisible(true)
+      return
+    } else if (senha !== confirmacao){
+      setError('As senhas não conferem')
+      setModalVisible(true)
+      return
     } else {
-        result = await RegisterService(name, email, senha, confirmacao)
+      setLoading(true)
+      result = await RegisterService(email, senha, confirmacao)
       if (result.status === 200){
-          console.log('Cadastro concluído com sucesso!')
-          navigation.navigate('Login')
+        const resultLogin = await auth.login(email, senha)
+        if (resultLogin.status === 200){
+          setLoading(false)
+          auth.setUserData({
+            firstLogin: true,
+            logado: true,
+            user: {
+              id: resultLogin.data.data.userId,
+              token: resultLogin.data.data.token
+            }
+          })
+        }
       } else {
-          //Enviar para tela de erro
-          console.log('Error')
+        setLoading(false)
+        setConfirmacao('')
+        setSenha('')
+        setError("Ocorreu um erro! Tente novamente =)")
+        setModalVisible(!modalVisible)
+        return
       }
     }
 }
 
   return (
     <ContainerGlobal>
-      <Space/>
-      <Input
-        placeholder={"Digite seu nome"}
-        nome={"profile"}
-        onChangeText={setName}/>
+      <Avatar.Image size={150} source={require('../../../assets/206858.png')} />
+      <Space2/>
+      <TextWhite>Preencha seus dados</TextWhite>
+      <Space2/>
       <Input
         placeholder={"Digite seu email"} nome={"email"} keyboardType="email-address" onChangeText={setEmail}/>
       <Input
-        placeholder={"Digite sua senha"} onChangeText={setSenha}/>
+        placeholder={"Digite sua senha"} value={senha} secureTextEntry={true} onChangeText={setSenha}/>
       <Input
-        placeholder={"Confirme sua senha"} onChangeText={setConfirmacao}/>
-      <Space/>
-      <BotaoGlobal onPress={() => {btnRegister(name, email, senha, confirmacao)}}>
-          <TextoBotao>Criar conta</TextoBotao>
-      </BotaoGlobal>
-      <BotaoGlobal onPress={() => navigation.push("Login")}>
-          <TextoBotao>Voltar</TextoBotao>
-      </BotaoGlobal>
+        placeholder={"Confirme sua senha"} value={confirmacao} secureTextEntry={true} onChangeText={setConfirmacao}/>
+      <Space2/>
+      <DivBotoes>
+        <BotaoGlobal onPress={() => {btnRegister(email, senha, confirmacao)}}>
+            <TextoBotao>Criar conta</TextoBotao>
+        </BotaoGlobal>
+        <Space2/>
+        <BotaoSemFundo onPress={() => navigation.push("Login")}>
+            <TextoBotao>Voltar</TextoBotao>
+        </BotaoSemFundo>
+      </DivBotoes>  
+      {modalVisible && 
+        <Snackbar
+        visible={modalVisible}
+        onDismiss={desativarError}
+        style={{textAlign: 'center', backgroundColor: "#cc0000"}}
+        action={{
+          label: 'X',
+          color: "#fff",
+          onPress: () => {
+            setModalVisible(!modalVisible)
+          },
+        }}>
+        <TextWhite>{error}</TextWhite>
+        </Snackbar>
+      }
+      <Space2/>
+      <Modal
+        animationType={'slide'}
+        transparent={false}
+        visible={loading}
+        onRequestClose={() => {
+          setLoading(false);
+        }}
+      >
+        <ContainerGlobal>
+          <ActivityIndicator animating={true} color="#0A9918" />
+          <Space2/>
+          <TextWhite>Carregando...</TextWhite>
+        </ContainerGlobal>
+      </Modal>
+
     </ContainerGlobal>
   )
 }

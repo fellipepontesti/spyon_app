@@ -4,12 +4,12 @@ import api from "../services/api";
 const AuthContext = createContext()
 
 export const INITIAL_STATE = {
-  logado: true,
+  logado: false,
   user: {
-    email: '',
-    nome: '',
-    id: false,
-    token: ''
+    nome: 'jão',
+    id: 10,
+    token: 'eae fi',
+    avatar: 'um ai'
   }
 }
 
@@ -25,7 +25,6 @@ function AuthProvider({children}) {
   
       return result
     } catch (error) {
-      
       return error.response.data
     }
   }
