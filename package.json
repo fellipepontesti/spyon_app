@@ -18,6 +18,8 @@
     "@react-navigation/native-stack": "^6.5.0",
     "axios": "^0.26.0",
     "expo": "^44.0.6",
+    "expo-app-auth": "~11.1.0",
+    "expo-google-app-auth": "~8.3.0",
     "expo-status-bar": "~1.2.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",

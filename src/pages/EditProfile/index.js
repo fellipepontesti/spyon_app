@@ -11,6 +11,7 @@ import { DadosMoney, Div, TextPoints } from "../Home/styles";
 import { Space, Space2 } from "./styles";
 
 export default function EditProfile({navigation, route}){
+  const auth = useContext(AuthContext)
   const [money, setMoney] = useState(null)
   const [points, setPoints] = useState(null)
   const [error, setError] = useState(true)

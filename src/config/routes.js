@@ -6,8 +6,8 @@ import AuthRouter from "./routes/authRoutes";
 
 export default function Router() {
   const auth = useContext(AuthContext)
-  // const logado = auth.userData.logado
-  const logado = true
+  const logado = auth.userData.logado
+  // const logado = true
 
   return logado ? <AppRouter/> : <AuthRouter/> 
 }
