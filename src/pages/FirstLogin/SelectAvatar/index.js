@@ -13,7 +13,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 export default function SelectAvatar({navigation, route}){
   const update = route.params?.update
 
-  console.log(update)
   function selected(url){
     if(update){
       navigation.push('EditProfile', {avatarSrc: url})

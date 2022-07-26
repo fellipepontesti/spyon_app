@@ -11,8 +11,7 @@ export default function FindRoom({navigation}) {
   const [code, setCode] = useState('')
 
   async function findRoom(code){
-    // await FindRoomGameService(code, {userName: 'zé'})
-    socket.emit('join server', {
+    socket.emit('join room', {
       name: 'novoUser',
       code: code
     }, res => {
