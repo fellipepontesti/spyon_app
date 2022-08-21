@@ -36,7 +36,7 @@ export default function EditProfile({navigation, route}){
   async function updateUser(data) {
     const result = await UpdateUserService(data)
     if (result.status === 200){
-      console.log("DATAAAAA AQ", result.data)
+
       auth.setUserData({
         logado: true,
         user: {

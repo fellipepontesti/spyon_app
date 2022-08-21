@@ -13,6 +13,7 @@ import { nameRoom } from '../../shared/helpers/generateNameRoom';
 import CreateRoomGameService from '../../services/CreateNewRoom';
 import { socket } from '../../services/socket';
 import loginWithGoogle from '../../services/LoginWithGoogle';
+import { saveDataStorage } from '../../services/Storage/saveData';
 
 export default function Home({navigation}){
   const [money, setMoney] = useState(null)
@@ -21,7 +22,9 @@ export default function Home({navigation}){
   const [modalVisible, setModalVisible] = useState(false)
   const [loadingRoom, setLoadingRoom] = useState(false)
   const auth = useContext(AuthContext)
-  const desativarError = () => setModalVisible(false);
+  const desativarError = () => setModalVisible(false)
+
+  saveDataStorage('loginData', auth.userData)
   // getWalletPoints(auth.userData.user.id)
   
   // async function getWalletPoints(userId) {

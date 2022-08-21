@@ -39,3 +39,13 @@ export const DivError = styled.View`
   width: 100%;
   font-size: 12px;
 `
+
+export const BotaoLoginWithGoogle = styled.TouchableOpacity`
+  padding: 10px;
+  border: none;
+  text-decoration: none;
+  align-items: center;
+  width: 45%;
+  background-color: transparent;
+  color: transparent;
+`;

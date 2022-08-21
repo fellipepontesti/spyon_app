@@ -10,6 +10,7 @@ import { Avatar } from 'react-native-paper';
 import { DivBotoes } from '../../components/Divs/styles'
 import { TextWhite } from '../../components/Texts/styles'
 import { validateEmail } from '../../helpers'
+import loginWithGoogle from '../../services/LoginWithGoogle'
 
 export default function Login({navigation}){
   const [email, setEmail] = useState('')
@@ -57,6 +58,27 @@ export default function Login({navigation}){
     }
   }
 
+  async function loginGoogle() {
+    const res = await loginWithGoogle()
+
+    console.log(res)
+    if (res.data.statusCode === 200) {
+      auth.setUserData({
+        firstLogin: res.data.data.userName === 'FirstAccess' ? true : false,
+        logado: true,
+        user: {
+          id: res.data.data.userId,
+          nome: res.data.data.userName,
+          token: res.data.data.token,
+          avatar: res.data.data.avatar
+        }
+      })
+    } else {
+      setError("Ocorreu um erro no login!")
+      setModalVisible(!modalVisible)
+    }
+  }
+
   return (
     <ContainerGlobal>
       <TextWhite>Seja bem-vindo ao Spyon</TextWhite>
@@ -98,6 +120,19 @@ export default function Login({navigation}){
           <TextoBotao>REGISTRAR</TextoBotao>
         </BotaoSemFundo>
       </DivBotoes>
+      <Space2/>
+      <Space2/>
+      <S.DivLogin>
+      <S.TextClick>Outras opções de login:</S.TextClick>
+        <S.BotaoLoginWithGoogle
+          onPress={() => loginGoogle()}
+        >
+        <Avatar.Image 
+          size={60}
+          source={require('../../../assets/png/google.webp')} 
+        /> 
+        </S.BotaoLoginWithGoogle>
+      </S.DivLogin>
     </ContainerGlobal>
   )
 }
