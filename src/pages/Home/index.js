@@ -12,6 +12,8 @@ import { Image } from 'react-native';
 import { nameRoom } from '../../shared/helpers/generateNameRoom';
 import CreateRoomGameService from '../../services/CreateNewRoom';
 import { socket } from '../../services/socket';
+import loginWithGoogle from '../../services/LoginWithGoogle';
+import { saveDataStorage } from '../../services/Storage/saveData';
 
 export default function Home({navigation}){
   const [money, setMoney] = useState(null)
@@ -20,7 +22,9 @@ export default function Home({navigation}){
   const [modalVisible, setModalVisible] = useState(false)
   const [loadingRoom, setLoadingRoom] = useState(false)
   const auth = useContext(AuthContext)
-  const desativarError = () => setModalVisible(false);
+  const desativarError = () => setModalVisible(false)
+
+  saveDataStorage('loginData', auth.userData)
   // getWalletPoints(auth.userData.user.id)
   
   // async function getWalletPoints(userId) {
@@ -41,16 +45,6 @@ export default function Home({navigation}){
     socket.on('new user', data => {
       console.log(data)
     })
-    // let codeRoom = nameRoom()
-    // const result = await CreateRoomGameService(codeRoom)
-    // if(result.data.statusCode === 200){
-    //   setLoadingRoom(!loadingRoom)
-    //   socket.send(codeRoom, auth.userData.user)
-    //   navigation.push('GameRoom', {codeRoom})
-    // } else {
-    //   setLoadingRoom(!loadingRoom)
-    //   createRoomGame()
-    // }
   }
 
   return (
@@ -112,7 +106,7 @@ export default function Home({navigation}){
             source={require('../../../assets/png/config.png')} 
           />
         </BotaoRedondoMenu>
-        <BotaoRedondoMenu>
+        <BotaoRedondoMenu onPress={() => loginWithGoogle()}>
           <Image  
             style={{backgroundColor:"#000", width: 30, height: 30, alignItems: "center"}}
             source={require('../../../assets/png/help.png')} 

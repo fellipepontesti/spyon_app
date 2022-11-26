@@ -16,7 +16,7 @@ export default function GameRoom({navigation, route}) {
   const users = []
   users.push({name: 'Jão'})
   const codeRoom = route.params?.codeRoom
-  const socket = io('http://192.168.0.3:4000/')
+  const socket = io('http://192.168.0.5:4000/')
 
   function newUserInGame(user){
     users.push(user)

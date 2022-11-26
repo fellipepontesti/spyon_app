@@ -4,15 +4,13 @@ import { ContainerGlobal } from "../../components/Container/styles";
 import { Input } from "../../components/Inputs/style";
 import { Space2 } from "../../components/Spaces/styles";
 import { TextWhite, TextWhiteBold } from "../../components/Texts/styles";
-import FindRoomGameService from "../../services/FindRoom";
 import { socket } from "../../services/socket";
 
 export default function FindRoom({navigation}) {
   const [code, setCode] = useState('')
 
   async function findRoom(code){
-    // await FindRoomGameService(code, {userName: 'zé'})
-    socket.emit('join server', {
+    socket.emit('join room', {
       name: 'novoUser',
       code: code
     }, res => {
