@@ -4,6 +4,7 @@ export const TextWhite = styled.Text`
   justify-content: center;
   color: white;
   font-size: 20px;
+  margin: 10px;
 `
 
 export const TextWhiteBold = styled.Text`

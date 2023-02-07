@@ -45,7 +45,6 @@ export default function Remember({navigation}){
         return
     }
 
-    console.log("*****", loading)
     const data = mountData(email, senha, confirmacao)
     result = await UpdateUserService(data)
     if (result.status === 200){

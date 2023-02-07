@@ -22,20 +22,20 @@ export default async function loginWithGoogle () {
 
       const res = await api.post('login-with-google', data)
 
-      // if (res.data.statusCode === 200) {
-      //   auth.setUserData({
-      //     logado: true,
-      //     user: {
-      //       id: res.data.data.userId,
-      //       nome: res.data.data.userName,
-      //       token: res.data.data.token,
-      //       avatar: res.data.data.avatar
-      //     }
-      //   })
+      if (res.data.statusCode === 200) {
+        auth.setUserData({
+          logado: true,
+          user: {
+            id: res.data.data.userId,
+            nome: res.data.data.userName,
+            token: res.data.data.token,
+            avatar: res.data.data.avatar
+          }
+        })
 
-      //   await saveDataStorage('loginData', auth)
+        await saveDataStorage('loginData', auth)
         return res
-      // }
+      }
     } 
   } catch (error) {
     return error

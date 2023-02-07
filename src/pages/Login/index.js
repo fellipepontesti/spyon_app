@@ -60,8 +60,6 @@ export default function Login({navigation}){
 
   async function loginGoogle() {
     const res = await loginWithGoogle()
-
-    console.log(res)
     if (res.data.statusCode === 200) {
       auth.setUserData({
         firstLogin: res.data.data.userName === 'FirstAccess' ? true : false,

@@ -40,11 +40,14 @@ export default function Home({navigation}){
   //   }
   // }
 
+  socket.on('room createdx', data => {
+    console.log('*********',  data)
+    // navigation.navigate('GameRoom', {data})
+  })
+  
   async function createRoomGame() {
+    console.log('********* >>>> ')
     socket.emit('create room', {userData: auth.userData.user})
-    socket.on('new user', data => {
-      console.log(data)
-    })
   }
 
   return (
@@ -69,11 +72,7 @@ export default function Home({navigation}){
       </Div>
       <Space5/>
       <Divisor/>
-      {/* <Space6/> */}
-      <BotaoMenuPrincipal onPress={() => {
-        setLoadingRoom(!loadingRoom)
-        createRoomGame()
-      }}>
+      <BotaoMenuPrincipal onPress={() => createRoomGame()}>
         {loadingRoom
           ? <ActivityIndicator animating={true} color="#FFFFFF" />
           : <TextWhiteBold>Novo jogo</TextWhiteBold>

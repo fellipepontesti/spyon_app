@@ -1,3 +1,4 @@
+import { Dimensions, StyleSheet } from "react-native";
 import { PixelRatio } from "react-native-web";
 import styled from "styled-components";
 
@@ -14,7 +15,17 @@ export const GridUsersName = styled.View`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  width: 100%;
+  width: 40%;
+  background-color: transparent;
+  padding: 15px;
+`
+
+export const TextCenter = styled.Text`
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 50px;
+    color: #ffffff;
 `
 
 export const DivButtons = styled.View`
@@ -24,4 +35,3 @@ export const DivButtons = styled.View`
   justify-content: space-evenly;
   width: 90%;
 `
-

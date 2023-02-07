@@ -23,13 +23,13 @@ export default function EditProfile({navigation, route}){
   const update = route.params?.avatarSrc
   const avatar = auth.userData.user.avatar
 
-  useEffect(() => {
-    if (update){
-      setUrl(update)
-    } else {
-      setUrl(avatar)
-    }
-  }, [url])
+  // useEffect(() => {
+  //   if (update){
+  //     setUrl(update)
+  //   } else {
+  //     setUrl(avatar)
+  //   }
+  // }, [url])
 
   getWalletPoints(auth.userData.user.id)
 

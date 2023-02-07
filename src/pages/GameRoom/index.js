@@ -1,62 +1,100 @@
-import axios from "axios";
 import React, {useContext, useEffect, useState} from "react";
-import { Avatar } from "react-native-paper";
-import io from "socket.io-client";
+import { Dimensions, Pressable, StyleSheet, View } from "react-native";
+import { ContainerGame, ContainerGlobal } from "../../components/Container/styles";
 import { BotaoMenuPrincipal } from "../../components/Buttons/styles";
-import { ContainerGlobal } from "../../components/Container/styles";
-import { Space1, Space3 } from "../../components/Spaces/styles";
+import { Space3 } from "../../components/Spaces/styles";
 import { TextWhite, TextWhiteBold } from "../../components/Texts/styles";
 import { AuthContext } from "../../context/auth";
-import FindRoomGameService from "../../services/FindRoom";
-import { DivButtons, GridUsers, GridUsersImage, GridUsersName } from "./styles";
+import { socket } from "../../services/socket";
+import { DivButtons, GridUsersName, TextCenter } from "./styles";
+import { FlatList } from "react-native";
+import { render } from "react-dom";
+import { blue } from "@mui/material/colors";
+import { Avatar } from "react-native-paper";
 
+const numColunas = 3
 
 export default function GameRoom({navigation, route}) {
   const auth = useContext(AuthContext)
-  const users = []
-  users.push({name: 'Jão'})
-  const codeRoom = route.params?.codeRoom
-  const socket = io('http://192.168.0.5:4000/')
+  const [users, setUsers] = useState([...route.params?.data.players])
+  const gameData = route.params?.data
+  const code = gameData.code
 
-  function newUserInGame(user){
-    users.push(user)
+  const formatData = (data, numColunas) => {
+    const numberOfFullRows = Math.floor(data.length / numColunas);
+  
+    let numberOfElementsLastRow = data.length - (numberOfFullRows * numColunas);
+    while (numberOfElementsLastRow !== numColunas && numberOfElementsLastRow !== 0) {
+      console.log('=====> ', numberOfElementsLastRow)
+      data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
+      numberOfElementsLastRow++;
+    }
+  
+    return data;
+  };
+
+  console.log(gameData.players)
+  setUsers([gameData.players])
+
+  // socket.on('players update', data => {
+  //   console.log('atualizando')
+  //   if (code === data.code) {
+  //     setUsers([...data.players])
+  //   }
+  // })
+
+  // useEffect(() => {
+
+  //   return () => {
+  //     socket.off('players update')
+  //   }
+  // }, [])
+
+  const renderItem = ({ item, index }) => {
+    if (item.empty === true) {
+      return <GridUsersName style={[styles.item, styles.itemInvisible]} />;
+    }
+    return (
+      <GridUsersName
+        style={styles.item}
+      >
+        <Avatar.Image size={70} source={{uri: item.avatar}} />
+        <TextWhite>{item.nome}</TextWhite>
+      </GridUsersName>
+    );
   }
 
-  useEffect(() => {
-    console.log(users)
-  }, [users])
-
   return(
-    <ContainerGlobal>
-      <TextWhite>
-        Bem vindo a nova sala!
-      </TextWhite>
-      <TextWhite>
-        O código da sala é: {codeRoom}
-      </TextWhite>
-      <Space3/>
-      <TextWhite>
-        Usuários online:
-      </TextWhite>
-      <Space3/>
-      <GridUsersName>
-        {users.map(user => {
-          return(
-              <TextWhite key={user.name}>
-                {user.name}
-              </TextWhite>
-          )
-        })}
-      </GridUsersName>
-      <DivButtons>
-        <BotaoMenuPrincipal onPress={() => navigation.push("Home")}>
-          <TextWhiteBold>Voltar</TextWhiteBold>
-        </BotaoMenuPrincipal>
-        <BotaoMenuPrincipal>
-          <TextWhiteBold>Conectar</TextWhiteBold>
-        </BotaoMenuPrincipal>
-      </DivButtons>
-    </ContainerGlobal>
-  )
+      <ContainerGame>
+        <Space3/>
 
+        <TextCenter>{gameData.code}</TextCenter>
+        <Space3/>
+        {/* <FlatList
+          data={() => formatData(users, numColunas)}
+          renderItem={renderItem}
+          numColumns={numColunas}
+        /> */}
+        <BotaoMenuPrincipal onPress={() => {navigation.navigate('Home')}}></BotaoMenuPrincipal>
+      </ContainerGame>
+  )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // padding: 20,
+    backgroundColor: '#000000',
+  },
+  item: {
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    margin: 1,
+    height: Dimensions.get('window').width / numColunas, // approximate a square
+  },
+  itemInvisible: {
+    backgroundColor: 'transparent',
+  }
+});

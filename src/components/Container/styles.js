@@ -6,3 +6,8 @@ export const ContainerGlobal = styled.View`
   align-items: center;
   justify-content: center;
 `
+
+export const ContainerGame = styled.View`
+  flex: 1;
+  background-color: #000000;
+`
