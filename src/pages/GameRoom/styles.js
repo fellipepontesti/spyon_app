@@ -15,7 +15,7 @@ export const GridUsersName = styled.View`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  width: 40%;
+  width: 33.33%;
   background-color: transparent;
   padding: 15px;
 `
@@ -35,3 +35,8 @@ export const DivButtons = styled.View`
   justify-content: space-evenly;
   width: 90%;
 `
+
+export const GridContainer = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+`;

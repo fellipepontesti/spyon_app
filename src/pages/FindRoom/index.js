@@ -14,7 +14,6 @@ export default function FindRoom({navigation}) {
   socket.on('room found', data => {
     const user = data.user
 
-    console.log('**************')
     if (user === socket.id) {
       // navigation.navigate('GameRoom', {data: data.result})
     }

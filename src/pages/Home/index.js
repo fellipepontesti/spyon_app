@@ -10,17 +10,18 @@ import { DadosMoney, Div, TextPoints } from './styles';
 import { Divisor } from '../../components/Divisor';
 import { Image } from 'react-native';
 import { nameRoom } from '../../shared/helpers/generateNameRoom';
-import CreateRoomGameService from '../../services/CreateNewRoom';
-import { socket } from '../../services/socket';
 import loginWithGoogle from '../../services/LoginWithGoogle';
 import { saveDataStorage } from '../../services/Storage/saveData';
+import CreateRoomGameService from '../../services/game/CreateNewRoom';
 
 export default function Home({navigation}){
+  // const socket = io('http://192.168.0.2:4000/')
   const [money, setMoney] = useState(null)
   const [points, setPoints] = useState(null)
   const [error, setError] = useState(true)
   const [modalVisible, setModalVisible] = useState(false)
   const [loadingRoom, setLoadingRoom] = useState(false)
+  const [count, setCount] = useState(0)
   const auth = useContext(AuthContext)
   const desativarError = () => setModalVisible(false)
 
@@ -39,15 +40,13 @@ export default function Home({navigation}){
   //     setModalVisible(true)
   //   }
   // }
-
-  socket.on('room createdx', data => {
-    console.log('*********',  data)
-    // navigation.navigate('GameRoom', {data})
-  })
   
   async function createRoomGame() {
-    console.log('********* >>>> ')
-    socket.emit('create room', {userData: auth.userData.user})
+    const response = await CreateRoomGameService(auth.userData.user.id)
+    
+    if (response.status === 200) {
+      navigation.push('GameRoom', {data: response.data})
+    }
   }
 
   return (
@@ -72,18 +71,21 @@ export default function Home({navigation}){
       </Div>
       <Space5/>
       <Divisor/>
-      <BotaoMenuPrincipal onPress={() => createRoomGame()}>
+      <BotaoMenuPrincipal onPress={() => {
+        createRoomGame()
+      }}>
         {loadingRoom
           ? <ActivityIndicator animating={true} color="#FFFFFF" />
           : <TextWhiteBold>Novo jogo</TextWhiteBold>
         }
       </BotaoMenuPrincipal>
       <BotaoMenuPrincipal onPress={() => {
-        navigation.navigate('FindRoom')
+        listAllRooms()
+        // navigation.navigate('FindRoom')
       }}>
         <TextWhiteBold>Buscar jogo</TextWhiteBold>
       </BotaoMenuPrincipal>
-      {/* <Space6/> */}
+      <Space6/>
       <Divisor/>
       <Space5/>
       <Div>
